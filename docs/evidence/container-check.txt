@@ -1,0 +1,6 @@
+CONTAINER ID   IMAGE             COMMAND                CREATED         STATUS         PORTS                                         NAMES
+0dab3f43ee84   devops-info:dev   "python -m app.main"   4 minutes ago   Up 4 minutes   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   devops-info
+ * Serving Flask app 'main'
+ * Debug mode: off
+{"status":"ok"}
+{"status":"ok"}
