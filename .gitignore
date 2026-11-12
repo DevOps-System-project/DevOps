@@ -1,3 +1,17 @@
 __pycache__/
 *.pyc
 .venv/
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.log
+logs/
+.env
+*.env
+*.pem
+*.key
+secrets/
+credentials.json

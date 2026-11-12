@@ -1,0 +1,82 @@
+=== 1. OS Version ===
+PRETTY_NAME="Kali GNU/Linux Rolling"
+VERSION="2026.1"
+6.6.87.2-microsoft-standard-WSL2
+
+=== 2. CPU, Memory & Storage Specs ===
+Architecture:                         x86_64
+CPU(s):                               8
+Model name:                           Intel(R) Core(TM) i5-10400F CPU @ 2.90GHz
+NUMA node0 CPU(s):                    0-7
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       1.2Gi        13Gi        29Mi       1.4Gi        14Gi
+Swap:          4.0Gi          0B       4.0Gi
+
+=== 3. Network Configuration ===
+lo               UNKNOWN        127.0.0.1/8 10.255.255.254/32 
+eth0             UP             172.25.222.233/20 
+docker0          DOWN           172.17.0.1/16 
+
+=== 4. Individual Named Accounts & Least-Privilege Groups ===
+halim:x:1004:1004:Halim - Student 1:/home/halim:/bin/bash
+yazan:x:1005:1005:Yazan - Student 2:/home/yazan:/bin/bash
+moayad:x:1006:1006:Moayad - Student 3:/home/moayad:/bin/bash
+deploy:x:1007:1007:Deployment Service Account:/home/deploy:/bin/bash
+halim : halim users docker
+yazan : yazan sudo users
+moayad : moayad users docker
+deploy : deploy users docker
+
+=== 5. Project Directory Ownership (ls -l) ===
+drwxr-s--- 2 deploy deploy 4096 Sep 10 15:12 /opt/devops-project
+
+=== 6. Disk Space Check (df -h) ===
+Filesystem      Size  Used Avail Use% Mounted on
+none            7.8G     0  7.8G   0% /usr/lib/modules/6.6.87.2-microsoft-standard-WSL2
+none            7.8G  4.0K  7.8G   1% /mnt/wsl
+drivers         931G  782G  150G  84% /usr/lib/wsl/drivers
+/dev/sdd       1007G   48G  909G   5% /
+none            7.8G     0  7.8G   0% /usr/lib/wsl/lib
+rootfs          7.8G  2.7M  7.8G   1% /init
+none            7.8G     0  7.8G   0% /dev
+none            7.8G  932K  7.8G   1% /run
+none            7.8G     0  7.8G   0% /run/lock
+none            7.8G     0  7.8G   0% /run/shm
+C:\             931G  782G  150G  84% /mnt/c
+none            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+none            1.0M     0  1.0M   0% /run/credentials/getty@tty1.service
+none            1.0M     0  1.0M   0% /run/credentials/console-getty.service
+tmpfs           1.6G  116K  1.6G   1% /run/user/1000
+
+=== 7. Process Inspection (ps aux) ===
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         387  0.0  0.4 1846532 72868 ?       Ssl  15:51   0:00 /usr/sbin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+root       12666  0.0  0.0  11816  7808 ?        Ss   16:01   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+kura       13422  0.0  0.0   6608  2176 pts/2    S+   16:02   0:00 grep --color=auto -E PID|dockerd|sshd
+
+=== 8. System Service Inspection (systemctl status) ===
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-11-12 15:51:39 +03; 10min ago
+ Invocation: 349fe8a17ab246ac9b6fc726f6c3c721
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 387 (dockerd)
+      Tasks: 14
+     Memory: 89.3M (peak: 91.1M)
+        CPU: 571ms
+     CGroup: /system.slice/docker.service
+             └─387 /usr/sbin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/usr/lib/systemd/system/ssh.service; enabled; preset: disabled)
+     Active: active (running) since Thu 2026-11-12 16:01:18 +03; 47s ago
+ Invocation: 4b7be417c88143c798fd160854fa272e
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+    Process: 12663 ExecStartPre=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+   Main PID: 12666 (sshd)
+      Tasks: 1 (limit: 19001)
+     Memory: 1.4M (peak: 4.9M)
+        CPU: 43ms
+     CGroup: /system.slice/ssh.service

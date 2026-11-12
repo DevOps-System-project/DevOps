@@ -1,0 +1,11 @@
+=== Connectivity Check to VM (172.25.222.233) ===
+PING 172.25.222.233 (172.25.222.233) 56(84) bytes of data.
+64 bytes from 172.25.222.233: icmp_seq=1 ttl=64 time=0.080 ms
+64 bytes from 172.25.222.233: icmp_seq=2 ttl=64 time=0.029 ms
+64 bytes from 172.25.222.233: icmp_seq=3 ttl=64 time=0.035 ms
+
+--- 172.25.222.233 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2032ms
+rtt min/avg/max/mdev = 0.029/0.048/0.080/0.022 ms
+172.25.222.233: inverse host lookup failed: Unknown host
+(UNKNOWN) [172.25.222.233] 22 (ssh) open
