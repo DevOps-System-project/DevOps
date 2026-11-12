@@ -1,0 +1,81 @@
+# CI pipeline: check every change automatically.
+# Order: static check -> tests -> build image -> health check -> save versioned artifact.
+# If any step fails, the next steps do NOT run, so no artifact is created.
+
+name: CI
+
+on:
+  pull_request:          # every pull request (any target branch)
+  push:
+    branches: [main]     # every push / merge to main
+  workflow_dispatch:     # allow a manual run from the Actions tab
+
+permissions:
+  contents: read         # least privilege: the pipeline can only read the code
+
+jobs:
+  lint-and-test:
+    name: Static check and tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Static check (flake8)
+        run: flake8 app tests
+
+      - name: Run tests (pytest)
+        run: python -m pytest -v
+
+  build-artifact:
+    name: Build and save versioned image
+    needs: lint-and-test   # runs ONLY if lint-and-test passed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image tagged with the commit SHA
+        run: docker build -t devops-info:${{ github.sha }} .
+
+      - name: Start the container and check /health
+        run: |
+          docker run -d --name ci-check -p 127.0.0.1:8000:8000 devops-info:${{ github.sha }}
+          for i in $(seq 1 15); do
+            if curl -fs http://127.0.0.1:8000/health; then echo; echo "Health check passed"; break; fi
+            sleep 1
+          done
+          curl -fs http://127.0.0.1:8000/health
+          echo "Container runs as user: $(docker exec ci-check whoami)"
+          docker rm -f ci-check
+
+      - name: Export image as an archive
+        run: docker save devops-info:${{ github.sha }} | gzip > devops-info-${{ github.sha }}.tar.gz
+
+      - name: Record build information
+        run: |
+          {
+            echo "source_commit=${{ github.sha }}"
+            echo "branch=${{ github.ref_name }}"
+            echo "pipeline_run=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "image=devops-info:${{ github.sha }}"
+            echo "image_id=$(docker image inspect devops-info:${{ github.sha }} --format '{{.Id}}')"
+          } > build-info.txt
+          cat build-info.txt
+
+      - name: Save the artifact in GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: devops-info-${{ github.sha }}
+          path: |
+            devops-info-${{ github.sha }}.tar.gz
+            build-info.txt
+          retention-days: 90
