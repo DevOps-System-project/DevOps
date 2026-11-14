@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 SERVICE_NAME = "Campus Help Desk"
 SUPPORT_EMAIL = "support@example.com"
 SERVICE_HOURS = "Mon-Fri 08:00-17:00"
