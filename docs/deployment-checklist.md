@@ -7,11 +7,11 @@ Service Account: `deploy` (Non-sudo, member of `docker` group)
 ---
 
 ## 1. Prerequisites
-- [ ] Target Linux VM is reachable on the private lab network (`172.25.222.233`) and UFW rules allow ports `22/tcp` and `8000/tcp`.
-- [ ] Docker daemon (`docker.service`) is active and running (`systemctl status docker`).
-- [ ] Sufficient disk space is available on `/` (`df -h` shows < 80% usage).
-- [ ] Pull Request has been peer-reviewed, approved by at least one teammate, and merged into `main`.
-- [ ] GitHub Actions CI workflow (`lint-and-test` and `build-artifact`) completed with status `success`.
+- [x] Target Linux VM is reachable on the private lab network (`172.25.222.233`) and UFW rules allow ports `22/tcp` and `8000/tcp`.
+- [x] Docker daemon (`docker.service`) is active and running (`systemctl status docker`).
+- [x] Sufficient disk space is available on `/` (`df -h` shows < 80% usage).
+- [x] Pull Request has been peer-reviewed, approved by at least one teammate, and merged into `main`.
+- [x] GitHub Actions CI workflow (`lint-and-test` and `build-artifact`) completed with status `success`.
 
 ## 2. Approval
 - **Release v1.0.0:**

@@ -17,4 +17,4 @@ The pipeline enforces a strict quality gate: `build-artifact` specifies `needs: 
 
 | Release Version | Workflow Run ID | Commit SHA | Image Tag | Image Digest / ID | Pipeline Run URL |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **v1.0.0** | `43596029502` | `35435717c01dda274a7b35b8101b76a41f5e2634` | `devops-info:35435717c01dda274a7b35b8101b76a41f5e2634` | `` | [Run 43596029502](https://github.com/DevOps-System-project/DevOps/actions/runs/43596029502) |
+| **v1.0.0** | `43596029502` | `35435717c01dda274a7b35b8101b76a41f5e2634` | `devops-info:35435717c01dda274a7b35b8101b76a41f5e2634` | `sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205` | [Run 43596029502](https://github.com/DevOps-System-project/DevOps/actions/runs/43596029502) |
