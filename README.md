@@ -20,7 +20,64 @@ devops-team-project/
 │   └── evidence/        # Command output saved as proof
 ├── Dockerfile           # Container build instructions
 ├── requirements.txt     # Runtime dependency (flask==3.1.3)
-└── README.md
+└── README.mddevops-team-project/
+├── .flake8                          # flake8 lint configuration
+├── .gitignore                       # excludes .venv, __pycache__, .env
+├── .github/
+│   ├── pull_request_template.md     # PR template
+│   └── workflows/
+│       └── ci.yml                   # GitHub Actions CI pipeline
+├── app/
+│   ├── __init__.py
+│   └── main.py                      # Flask application (VERSION, / and /health)
+├── docs/
+│   ├── evidence/                    # Command output and CI run evidence
+│   │   ├── container-check.txt
+│   │   ├── linux-checks.txt
+│   │   ├── connectivity-check.txt
+│   │   └── ci-halim-runs.md
+│   ├── records/                     # Work logs, release and CI records
+│   └── linux-configuration.md       # VM specs, accounts, firewall rules
+├── releases/
+│   └── metadata.md                  # Version, commit SHA, and image ID per release
+├── tests/
+│   ├── app/
+│   │   └── test_app_home_health_404.py   # Halim's tests (home, /health, 404)
+│   └── test_app.py                       # Yazan's tests
+├── Dockerfile                       # Container build instructions
+├── requirements.txt                 # Runtime dependency (flask==3.1.3)
+├── requirements-dev.txt             # Dev dependencies (pytest, flake8)
+└── README.mdevops-team-project/
+├── .flake8                              # flake8 lint configuration
+├── .gitignore                           # excludes .venv, __pycache__, .env
+├── .github/
+│   ├── pull_request_template.md         # PR template
+│   └── workflows/
+│       └── ci.yml                       # GitHub Actions CI pipeline
+├── app/
+│   ├── __init__.py
+│   └── main.py                          # Flask app (VERSION, /, /health)
+├── docs/
+│   ├── deployment-checklist.md          # Deployment steps and rollback
+│   ├── linux-configuration.md           # VM specs, accounts, firewall rules
+│   ├── evidence/
+│   │   ├── ci-halim-runs.md             # Failed and passing CI run links
+│   │   ├── connectivity-check.txt
+│   │   ├── container-check.txt
+│   │   ├── deploy-v1.0.0.txt
+│   │   └── linux-checks.txt
+│   └── records/
+│       ├── ci-runs.md
+│       ├── risk-register.md
+│       └── work-log-yazan.md
+├── tests/
+│   ├── app/
+│   │   └── test_app_home_health_404.py  # Home, /health, and 404 tests
+│   └── test_app.py                      # Shared app tests
+├── Dockerfile                           # Container build instructions
+├── requirements.txt                     # Runtime dependency (flask==3.1.3)
+├── requirements-dev.txt                 # Dev dependencies (pytest, flake8)
+└── README.mdd
 ```
 
 ## 1. Run Locally
@@ -70,7 +127,7 @@ docker build -t devops-info:dev .
 Run the container:
 
 ```bash
-docker run -d -p 8000:8000 --name devops-info devops-info:dev
+docker run -d -p 127.0.0.1:8000:8000 --name devops-info devops-info:dev
 ```
 
 Check that it is running:
@@ -119,7 +176,7 @@ pip install -r requirements-dev.txt
 Run the tests:
 
 ```bash
-pytest tests/app
+pytest -m pytest -v
 ```
 
 Run the linter:
