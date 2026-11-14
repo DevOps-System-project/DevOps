@@ -1,0 +1,12 @@
+=== Artifact check: v1.0.0 ===
+Date: Sat Nov 14 02:42:00 PM UTC 2026
+Image tag: devops-info:35435717c01dda274a7b35b8101b76a41f5e2634
+Local image ID: sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513
+Source commit (v1.0.0 tag): 35435717c01dda274a7b35b8101b76a41f5e2634
+Registry digest (from CI record): sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205
+CI run: https://github.com/DevOps-System-project/DevOps/actions/runs/43596029502
+--- /health ---
+{"status":"ok"}
+
+--- / (version line) ---
+    <p>Version: 1.0.0</p>
