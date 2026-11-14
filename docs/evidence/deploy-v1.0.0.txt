@@ -1,0 +1,32 @@
+=== Deployment Verification: Release v1.0.0 ===
+Date/Time: 2026-11-14 12:54:20 UTC
+Executed By: deploy (Deployment Service Account)
+Working Directory: /opt/devops-project
+Target Image: devops-info:35435717c01dda274a7b35b8101b76a41f5e2634
+Image Digest: sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205
+
+--- 1. Container Start Command ---
+$ docker run -d -p 8000:8000 --name devops-info devops-info:35435717c01dda274a7b35b8101b76a41f5e2634
+0acee76dfd8590a00e39361ad15506b779fc05d9e4bb231bc9f994ab0b750639
+
+--- 2. Running Container Status (docker ps) ---
+CONTAINER ID   IMAGE                                                  COMMAND                CREATED         STATUS         PORTS                                         NAMES
+0acee76dfd85   devops-info:35435717c01dda274a7b35b8101b76a41f5e2634   "python -m app.main"   8 seconds ago   Up 8 seconds   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   devops-info
+
+--- 3. Health Endpoint Verification (curl -i http://localhost:8000/health) ---
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.14.10
+Date: Sat, 14 Nov 2026 12:54:20 GMT
+Content-Type: application/json
+Content-Length: 16
+Connection: close
+
+{"status":"ok"}
+
+--- 4. Service Information Page Verification (curl -s http://localhost:8000/) ---
+
+    <h1>Campus Help Desk</h1>
+    <p>Support: support@example.com</p>
+    <p>Hours: Mon-Fri 08:00-17:00</p>
+    <p>Version: 1.0.0</p>
+    
