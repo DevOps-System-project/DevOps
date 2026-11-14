@@ -1,0 +1,30 @@
+=== Deployment Verification: Release v1.1.0 ===
+Date/Time: 2026-11-14 17:37:58 UTC
+Executed By: deploy (Deployment Service Account)
+Working Directory: /opt/devops-project
+Target Image: devops-info:v1.1.0
+Container Stopped At: 2026-11-14 17:36:33 UTC
+
+--- 1. Container Start Command ---
+$ docker run -d -p 8000:8000 --name devops-info devops-info:v1.1.0
+926eb0abdbb72c39b2a8ff2c707d6cafdd2626e22663a6d933f734d48fc9fe24
+
+--- 2. Running Container Status (docker ps) ---
+CONTAINER ID   IMAGE               COMMAND                CREATED         STATUS         PORTS                                         NAMES
+926eb0abdbb7   devops-info:v1.1.0  "python -m app.main"   4 seconds ago   Up 4 seconds   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   devops-info
+
+--- 3. Health Endpoint Verification (curl -i http://localhost:8000/health) ---
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.14.10
+Date: Sat, 14 Nov 2026 17:37:58 GMT
+Content-Type: application/json
+Content-Length: 16
+Connection: close
+
+{"status":"ok"}
+
+--- 4. Service Information Page Verification (curl -s http://localhost:8000/) ---
+    <h1>Campus Help Desk</h1>
+    <p>Support: support@example.com</p>
+    <p>Hours: Mon-Fri 08:00-17:00</p>
+    <p>Version: 1.1.0</p>
