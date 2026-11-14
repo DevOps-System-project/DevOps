@@ -13,41 +13,6 @@ A small Python web service that shows a fictional service information page and e
 
 ```
 devops-team-project/
-├── app/
-│   ├── __init__.py
-│   └── main.py          # Flask application
-├── docs/
-│   └── evidence/        # Command output saved as proof
-├── Dockerfile           # Container build instructions
-├── requirements.txt     # Runtime dependency (flask==3.1.3)
-└── README.mddevops-team-project/
-├── .flake8                          # flake8 lint configuration
-├── .gitignore                       # excludes .venv, __pycache__, .env
-├── .github/
-│   ├── pull_request_template.md     # PR template
-│   └── workflows/
-│       └── ci.yml                   # GitHub Actions CI pipeline
-├── app/
-│   ├── __init__.py
-│   └── main.py                      # Flask application (VERSION, / and /health)
-├── docs/
-│   ├── evidence/                    # Command output and CI run evidence
-│   │   ├── container-check.txt
-│   │   ├── linux-checks.txt
-│   │   ├── connectivity-check.txt
-│   │   └── ci-halim-runs.md
-│   ├── records/                     # Work logs, release and CI records
-│   └── linux-configuration.md       # VM specs, accounts, firewall rules
-├── releases/
-│   └── metadata.md                  # Version, commit SHA, and image ID per release
-├── tests/
-│   ├── app/
-│   │   └── test_app_home_health_404.py   # Halim's tests (home, /health, 404)
-│   └── test_app.py                       # Yazan's tests
-├── Dockerfile                       # Container build instructions
-├── requirements.txt                 # Runtime dependency (flask==3.1.3)
-├── requirements-dev.txt             # Dev dependencies (pytest, flake8)
-└── README.mdevops-team-project/
 ├── .flake8                              # flake8 lint configuration
 ├── .gitignore                           # excludes .venv, __pycache__, .env
 ├── .github/
@@ -77,7 +42,7 @@ devops-team-project/
 ├── Dockerfile                           # Container build instructions
 ├── requirements.txt                     # Runtime dependency (flask==3.1.3)
 ├── requirements-dev.txt                 # Dev dependencies (pytest, flake8)
-└── README.mdd
+└── README.md
 ```
 
 ## 1. Run Locally
@@ -111,8 +76,8 @@ Expected output includes:
 
 Open these URLs in a browser:
 
-- `http://127.0.0.1:8000/`: shows the service name, support contact, service hours, and version (`1.0.0`)
-- `http://127.0.0.1:8000/health`: shows `{"status": "ok"}`
+- `http://127.0.0.1:8000/` shows the service name, support contact, service hours, and version (`1.0.0`).
+- `http://127.0.0.1:8000/health` shows `{"status": "ok"}`.
 
 Stop the app with `Ctrl+C`.
 
@@ -124,7 +89,7 @@ Build the image:
 docker build -t devops-info:dev .
 ```
 
-Run the container:
+Run the container, publishing the port only on the host's localhost:
 
 ```bash
 docker run -d -p 127.0.0.1:8000:8000 --name devops-info devops-info:dev
@@ -136,7 +101,7 @@ Check that it is running:
 docker ps
 ```
 
-Expected: a row for `devops-info` with status `Up` and port `0.0.0.0:8000->8000/tcp`.
+Expected: a row for `devops-info` with status `Up` and port `127.0.0.1:8000->8000/tcp`.
 
 View the logs:
 
@@ -173,10 +138,10 @@ Install the development dependencies:
 pip install -r requirements-dev.txt
 ```
 
-Run the tests:
+Run the tests (this is the same command the CI pipeline runs):
 
 ```bash
-pytest -m pytest -v
+python -m pytest -v
 ```
 
 Run the linter:
@@ -188,5 +153,6 @@ flake8 app tests
 ## Notes
 
 - The container runs as a non-root user (`appuser`).
-- The app binds to `0.0.0.0` inside the container so that Docker can forward traffic to it, and to `127.0.0.1` when run locally.
+- The app listens on `0.0.0.0:8000` inside the container, and the Docker command publishes it only on `127.0.0.1` of the host.
+- The app binds to `127.0.0.1` when run locally with `python3 -m app.main`.
 - Evidence of each step is stored in `docs/evidence/`.
