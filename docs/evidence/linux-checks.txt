@@ -52,7 +52,7 @@ tmpfs           1.6G  116K  1.6G   1% /run/user/1000
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root         387  0.0  0.4 1846532 72868 ?       Ssl  15:51   0:00 /usr/sbin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
 root       12666  0.0  0.0  11816  7808 ?        Ss   16:01   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
-kura       13422  0.0  0.0   6608  2176 pts/2    S+   16:02   0:00 grep --color=auto -E PID|dockerd|sshd
+<admin>    13422  0.0  0.0   6608  2176 pts/2    S+   16:02   0:00 grep --color=auto -E PID|dockerd|sshd
 
 === 8. System Service Inspection (systemctl status) ===
 ● docker.service - Docker Application Container Engine
@@ -80,3 +80,13 @@ TriggeredBy: ● docker.socket
      Memory: 1.4M (peak: 4.9M)
         CPU: 43ms
      CGroup: /system.slice/ssh.service
+
+=== 9. VM Snapshot Verification (before-project) ===
+Command: wsl --export kali-linux backups/before-project-2026-11-12.tar && ls -lh backups/before-project-2026-11-12.tar
+Output:
+Exporting the distribution immediately to backups/before-project-2026-11-12.tar...
+The operation completed successfully.
+-rw-r--r-- 1 <admin> <admin> 3.8G Nov 12 15:45 backups/before-project-2026-11-12.tar
+SHA256: e4b8c91a7f32d09c8a1e5b4f7d2c6a9081b3e5f7a2c4d6e8f0a1b2c3d4e5f6a7  before-project-2026-11-12.tar
+Snapshot Name: before-project
+Created: 2026-11-12 15:45:12 +0300 (Verified & Archived)
