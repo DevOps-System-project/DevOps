@@ -1,6 +1,8 @@
 # CI pipeline: check every change automatically.
 # Order: static check -> tests -> build image -> health check -> save versioned artifact.
 # If any step fails, the next steps do NOT run, so no artifact is created.
+# When a version tag (for example v1.0.0) is pushed, the same tested image is
+# also attached to the GitHub Release so it can be deployed to the VM.
 
 name: CI
 
@@ -8,6 +10,7 @@ on:
   pull_request:          # every pull request (any target branch)
   push:
     branches: [main]     # every push / merge to main
+    tags: ["v*"]         # every release tag, e.g. v1.0.0, v1.1.0
   workflow_dispatch:     # allow a manual run from the Actions tab
 
 permissions:
@@ -39,43 +42,83 @@ jobs:
     name: Build and save versioned image
     needs: lint-and-test   # runs ONLY if lint-and-test passed
     runs-on: ubuntu-latest
+    permissions:
+      contents: write      # only this job may attach the image to a GitHub Release
+    env:
+      # The real source commit. On a pull request github.sha is a temporary
+      # merge commit, so we use the PR head commit instead.
+      SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Get the code
         uses: actions/checkout@v4
 
-      - name: Build Docker image tagged with the commit SHA
-        run: docker build -t devops-info:${{ github.sha }} .
+      - name: Work out the image tags
+        run: |
+          SHORT_SHA="${SOURCE_SHA::7}"
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            VERSION_TAG="${{ github.ref_name }}"
+            # The Git tag must match the version shown by the app.
+            APP_VERSION="v$(grep -oP 'VERSION = "\K[^"]+' app/main.py)"
+            if [ "$VERSION_TAG" != "$APP_VERSION" ]; then
+              echo "Tag $VERSION_TAG does not match app VERSION $APP_VERSION"
+              exit 1
+            fi
+          else
+            VERSION_TAG="sha-$SHORT_SHA"
+          fi
+          echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
+          echo "Image tags: devops-info:$VERSION_TAG and devops-info:$SOURCE_SHA"
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --label org.opencontainers.image.revision="$SOURCE_SHA" \
+            --label org.opencontainers.image.version="$VERSION_TAG" \
+            -t "devops-info:$VERSION_TAG" -t "devops-info:$SOURCE_SHA" .
 
       - name: Start the container and check /health
         run: |
-          docker run -d --name ci-check -p 127.0.0.1:8000:8000 devops-info:${{ github.sha }}
+          docker run -d --name ci-check -p 127.0.0.1:8000:8000 "devops-info:$VERSION_TAG"
           for i in $(seq 1 15); do
             if curl -fs http://127.0.0.1:8000/health; then echo; echo "Health check passed"; break; fi
             sleep 1
           done
           curl -fs http://127.0.0.1:8000/health
+          curl -fs http://127.0.0.1:8000/ | grep "Version:"
           echo "Container runs as user: $(docker exec ci-check whoami)"
           docker rm -f ci-check
 
       - name: Export image as an archive
-        run: docker save devops-info:${{ github.sha }} | gzip > devops-info-${{ github.sha }}.tar.gz
+        run: docker save "devops-info:$VERSION_TAG" "devops-info:$SOURCE_SHA" | gzip > "devops-info-$VERSION_TAG.tar.gz"
 
       - name: Record build information
         run: |
           {
-            echo "source_commit=${{ github.sha }}"
-            echo "branch=${{ github.ref_name }}"
+            echo "release_version=$VERSION_TAG"
+            echo "source_commit=$SOURCE_SHA"
+            echo "branch_or_tag=${{ github.ref_name }}"
             echo "pipeline_run=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            echo "image=devops-info:${{ github.sha }}"
-            echo "image_id=$(docker image inspect devops-info:${{ github.sha }} --format '{{.Id}}')"
+            echo "image=devops-info:$VERSION_TAG"
+            echo "image_id=$(docker image inspect "devops-info:$VERSION_TAG" --format '{{.Id}}')"
+            echo "archive_sha256=$(sha256sum "devops-info-$VERSION_TAG.tar.gz" | cut -d' ' -f1)"
           } > build-info.txt
           cat build-info.txt
 
       - name: Save the artifact in GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: devops-info-${{ github.sha }}
+          name: devops-info-${{ env.VERSION_TAG }}
           path: |
-            devops-info-${{ github.sha }}.tar.gz
+            devops-info-${{ env.VERSION_TAG }}.tar.gz
             build-info.txt
           retention-days: 90
+
+      - name: Attach the image to the GitHub Release (tags only)
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release view "$VERSION_TAG" >/dev/null 2>&1 || \
+            gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "Release $VERSION_TAG"
+          gh release upload "$VERSION_TAG" "devops-info-$VERSION_TAG.tar.gz" build-info.txt --clobber
