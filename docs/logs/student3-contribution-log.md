@@ -25,7 +25,8 @@ Commits on `main` that changed `.github/workflows/ci.yml`: `6876b33` and `f927fc
 - My pipeline built and published release `v1.1.0` from its tag ([run 43621860384](https://github.com/DevOps-System-project/DevOps/actions/runs/43621860384)).
 - Process improvement: see `docs/records/improvement-ci-traceability.md`.
 
-## Still to complete
+## Linux administration and recovery
 
-- Linux administration task with my own `moayad` account on the VM.
-- Timed rollback from `v1.1.0` to `v1.0.0`, checking the displayed version and `/health`.
+- Linux checks on my own lab VM (Ubuntu 26.04.1): account and groups, disk usage, home directory permissions, Docker version and service state. Evidence: `docs/evidence/linux-checks-moayad.txt`.
+- Rollback drill from `v1.1.0` to `v1.0.0` using the CI-built artifacts (loaded, not rebuilt; both image IDs match their `build-info.txt`). Version 1.0.0 displayed and `/health` returned 200 OK. Measured recovery time 12.1 s, under QEMU emulation. Evidence: `docs/evidence/rollback-v1.0.0-moayad.txt`.
+- Not yet done on the team VM; planned for the final demonstration.
