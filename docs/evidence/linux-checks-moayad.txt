@@ -1,0 +1,25 @@
+# Linux administration checks: Moayad Alahmadi (Student 3)
+# Environment: my own lab VM (VirtualBox on my laptop), not the team VM on Student 2's laptop.
+# Default VM account `vboxuser`. Output copied unchanged from the terminal.
+=== Linux checks: Moayad, own lab VM ===
+Mon Nov 16 03:50:19 PM UTC 2026
+--- whoami
+vboxuser
+--- id
+uid=1000(vboxuser) gid=1000(vboxuser) groups=1000(vboxuser),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),111(lpadmin),114(lxd),971(docker)
+--- groups
+vboxuser adm cdrom sudo dip plugdev users lpadmin lxd docker
+--- hostname
+devops-server
+--- arch
+aarch64
+--- os
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+--- disk
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        24G  7.3G   15G  33% /
+--- home permissions
+drwxr-x--- 17 vboxuser vboxuser 4096 Nov 16 15:50 /home/vboxuser
+--- docker
+Docker version 29.9.3, build 5457199
+active
