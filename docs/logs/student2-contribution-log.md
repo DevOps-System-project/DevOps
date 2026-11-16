@@ -5,5 +5,5 @@
   2. `feature/ci-pipeline` — `flake8` lint job, `pytest` test job, and `artifact` job dependency rules.
   3. `docs/student2-final` — Deployment README sections, report sections, operational evidence, and logs.
 - **Peer Reviews Completed:**
-  1. Reviewed Student 1's `feature/service-container` PR (verified non-root user and exposed port 8000).
+  1. Reviewed Student 1's `feature/app-tests` PR (PR #5 / PR #8 — verified unit tests and CI gate behavior).
   2. Reviewed Student 3's `feature/release-metadata` PR (verified SHA/image ID traceability fields).
