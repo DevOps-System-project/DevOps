@@ -1,0 +1,39 @@
+# Rollback drill v1.1.0 -> v1.0.0: Moayad Alahmadi (Student 3)
+# Environment: my own lab VM (VirtualBox, Ubuntu 26.04.1, arm64), not the team VM on Student 2's laptop.
+# Both images are the CI-built artifacts (loaded with docker load, not rebuilt):
+#   v1.1.0: release asset devops-info-v1.1.0.tar.gz (image ID sha256:fb060f5f..., matches build-info.txt of run 43621860384)
+#   v1.0.0: artifact of CI run 43596029502 (image ID sha256:8db0f786..., matches its build-info.txt)
+# The images are linux/amd64 and run here through QEMU emulation (see WARNING lines), so the
+# recovery time below is slower than it would be on an amd64 host.
+# The second container (docker-lab-web-1) is from an earlier course lab and is unrelated.
+# Output copied unchanged from the terminal.
+=== Rollback drill: v1.1.0 -> v1.0.0 | Moayad (Student 3) | own lab VM: devops-server, aarch64, "Ubuntu 26.04.1 LTS" ===
+Artifacts: v1.1.0 from GitHub Release v1.1.0 (CI run 43621860384); v1.0.0 from CI run 43596029502 artifact; both loaded with docker load (not rebuilt)
+--- 1. start point: v1.1.0 running
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+    <p>Version: 1.1.0</p>
+{"status":"ok"}
+
+--- 2. rollback started: 2026-11-16 15:53:34 UTC
+devops-info
+devops-info
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+5eeed7459ca68ab6e350d3798ea0cae83d592a800500d7baec03de0450d1de8c
+--- 3. rollback finished: 2026-11-16 15:53:46 UTC
+--- 4. verification
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.14.10
+Date: Mon, 16 Nov 2026 15:53:46 GMT
+Content-Type: application/json
+Content-Length: 16
+Connection: close
+
+{"status":"ok"}
+
+    <p>Version: 1.0.0</p>
+NAMES              IMAGE                                                  STATUS         PORTS
+devops-info        devops-info:35435717c01dda274a7b35b8101b76a41f5e2634   Up 1 second    127.0.0.1:8000->8000/tcp
+docker-lab-web-1   docker-lab-web                                         Up 7 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+running image ID: sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513
+CI build-info image_id: sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513
+Recovery time: 12.111733627 seconds
