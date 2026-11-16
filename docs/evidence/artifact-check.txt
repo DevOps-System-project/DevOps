@@ -1,12 +1,28 @@
 === Artifact check: v1.0.0 ===
-Date: Sat Nov 14 02:42:00 PM UTC 2026
+Date: Sat Nov 14 02:42:00 PM UTC 2026 (date as recorded in the earlier version of this file; not re-verified)
 Image tag: devops-info:35435717c01dda274a7b35b8101b76a41f5e2634
-Local image ID: sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513
-Source commit (v1.0.0 tag): 35435717c01dda274a7b35b8101b76a41f5e2634
-Registry digest (from CI record): sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205
+Method: Loaded from CI artifact archive via docker load
+Registry: not applicable. The pipeline saves the image as an archive artifact and does not push to a registry (no docker push, docker login, or ghcr.io in .github/workflows/ci.yml)
+
+CI build-info.txt (from run 43596029502):
+  source_commit=35435717c01dda274a7b35b8101b76a41f5e2634
+  branch=main
+  image_id=sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513
+
+Local image ID (docker images): sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513
+Local image ID matches build-info.txt image_id: yes
+
+Digest in ci-runs.md: sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205
+  (source not confirmed; no registry push exists, to be confirmed by Yazan)
+
+Source commit: 35435717c01dda274a7b35b8101b76a41f5e2634 (PR #3 merge on main)
+Release tag: v1.0.0 points to 382a24ec5f12cfc824d856031022646a9f93d4e0 (PR #7 merge)
+Observed gap: PR #6 (versioned release tagging, commit f927fc2) merged after the source commit
+
 CI run: https://github.com/DevOps-System-project/DevOps/actions/runs/43596029502
---- /health ---
+
+--- /health (as recorded Sat 14/11) ---
 {"status":"ok"}
 
---- / (version line) ---
-    <p>Version: 1.0.0</p>
+--- / (version line as recorded Sat 14/11) ---
+<p>Version: 1.0.0</p>
