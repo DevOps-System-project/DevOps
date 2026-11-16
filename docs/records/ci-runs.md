@@ -18,3 +18,5 @@ The pipeline enforces a strict quality gate: `build-artifact` specifies `needs: 
 | Release Version | Workflow Run ID | Commit SHA | Image Tag | Image Digest / ID | Pipeline Run URL |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **v1.0.0** | `43596029502` | `35435717c01dda274a7b35b8101b76a41f5e2634` | `devops-info:35435717c01dda274a7b35b8101b76a41f5e2634` | `sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205` | [Run 43596029502](https://github.com/DevOps-System-project/DevOps/actions/runs/43596029502) |
+
+> **Traceability Note (`v1.0.0`):** `sha256:70e46222bbd724bec1a1123dad0c3120af002571737254feda97ca2116ff1205` is the exported artifact/manifest digest recorded by CI, which corresponds to the unpacked Docker image config ID `sha256:8db0f7862bd1f3a8235597ec84e7061c7761b148fb49fa538d396fec42154513` in `build-info.txt` and `docs/evidence/artifact-check.txt`.

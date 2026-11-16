@@ -1,0 +1,34 @@
+CONTAINER ID   IMAGE                COMMAND                CREATED        STATUS         PORTS                                         NAMES
+926eb0abdbb7   devops-info:v1.1.0   "python -m app.main"   45 hours ago   Up 8 seconds   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   devops-info
+Filesystem      Size  Used Avail Use% Mounted on
+none            7.8G     0  7.8G   0% /usr/lib/modules/6.6.87.2-microsoft-standard-WSL2
+none            7.8G  4.0K  7.8G   1% /mnt/wsl
+drivers         931G  785G  146G  85% /usr/lib/wsl/drivers
+/dev/sdd       1007G   48G  908G   5% /
+none            7.8G     0  7.8G   0% /usr/lib/wsl/lib
+rootfs          7.8G  2.7M  7.8G   1% /init
+none            7.8G     0  7.8G   0% /dev
+none            7.8G 1004K  7.8G   1% /run
+none            7.8G     0  7.8G   0% /run/lock
+none            7.8G     0  7.8G   0% /run/shm
+C:\             931G  785G  146G  85% /mnt/c
+none            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+none            1.0M     0  1.0M   0% /run/credentials/console-getty.service
+none            1.0M     0  1.0M   0% /run/credentials/getty@tty1.service
+tmpfs           1.6G  116K  1.6G   1% /run/user/1000
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-11-16 17:01:20 +03; 7min ago
+ Invocation: c174434b561c4bf9b06f21e0c281ed73
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 432 (dockerd)
+      Tasks: 29
+     Memory: 99.5M (peak: 100.9M)
+        CPU: 660ms
+     CGroup: /system.slice/docker.service
+             ├─ 432 /usr/sbin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+             ├─8754 /usr/sbin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 8000 -container-ip 172.17.0.2 -container-port 8000 -use-listen-fd
+             └─8760 /usr/sbin/docker-proxy -proto tcp -host-ip :: -host-port 8000 -container-ip 172.17.0.2 -container-port 8000 -use-listen-fd
+
+Warning: some journal files were not opened due to insufficient permissions.

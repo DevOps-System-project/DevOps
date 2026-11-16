@@ -1,0 +1,13 @@
+=== Controlled Failure Drill (Simulation) ===
+Failure started (UTC): Mon Nov 16 02:09:21 PM UTC 2026
+Health check failed (UTC): Mon Nov 16 02:09:31 PM UTC 2026
+curl: (7) Failed to connect to localhost:8000 after 0 ms: Could not connect to server
+Recovered (UTC): Mon Nov 16 02:09:34 PM UTC 2026
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.14.10
+Date: Mon, 16 Nov 2026 14:09:34 GMT
+Content-Type: application/json
+Content-Length: 16
+Connection: close
+
+{"status":"ok"}
